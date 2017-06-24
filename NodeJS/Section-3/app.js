@@ -14,7 +14,16 @@ console.log("process", process.argv)
 console.log("yargs", yargs.argv)
 
 if (command === 'add'){
-  notes.addNote(args.title, args.body)
+  var note = notes.addNote(args.title, args.body)
+  if(note == undefined){
+    console.log('Note with that title ',note.title,' already exists');
+  }
+  else if(note.body == undefined){
+    console.log('Note does not contain a body')
+  }
+  else if(note.title == undefined){
+    console.log('Note does not contain a title')
+  }
 } else if (command === 'list'){
   notes.listNotes()
 }else if (command === 'read'){
