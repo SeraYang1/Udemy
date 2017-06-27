@@ -1,11 +1,15 @@
 var square = (x) => x * x;
-console.log(square(5))
+
+var test = 5;
 
 var user = {
   name: "Sera",
   //arrow functions do not bind this
+  //arrow functions do not bind parameters
+  //can access things from before, but cannot access new things.
   sayHi: () => {
-    console.log(arguments)
+    console.log(test);
+    console.log(arguments);
     console.log(`HI. I'm ${this.name}`);
   },
 
