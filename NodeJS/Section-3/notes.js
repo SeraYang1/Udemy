@@ -1,4 +1,4 @@
-console.log('starting notes');
+//console.log('starting notes');
 const fs = require('fs')
 //exports is basically the only useful thing, use other classes variables/functions
 var fetchNotes = () => {
@@ -32,19 +32,27 @@ var addNote = (title, body) => {
     }else{
     }
 };
-var listNotes = () => {
-    console.log("Listing note ")
-};
+
+
 var readNote = (title) => {
-    console.log("Reading note ", title)
+    var notes = fetchNotes();
+    var filtered = notes.filter((n) => n.title === title)
+    return filtered
 };
+
+
 var removeNote = (title) => {
-    console.log("Removing note ", title)
+    var notes = fetchNotes();
+    var filteredRemove = notes.filter((n) => {
+      return n.title !== title;
+    });
+    saveNote(filteredRemove)
+    return filteredRemove.length !== notes.length
 };
 
 module.exports = {
     addNote,
-    listNotes,
     readNote,
-    removeNote
+    removeNote,
+    fetchNotes
 }
