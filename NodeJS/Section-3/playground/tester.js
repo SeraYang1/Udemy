@@ -1,9 +1,9 @@
-var person {
-  name = 'Sera'
+var person = {
+  name: 'Sera'
 };
 
 debugger;
 
-person.age = 18;
+person.age = 19;
 
 person.name = 'Serax2';
