@@ -30,6 +30,7 @@ if (argv.address) {
 		var codedURL = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encoded
 	} catch (e) {
 		console.log("You need to enter an address!")
+		return;
 	}
 }
 
