@@ -13,8 +13,22 @@ var setName = (user, fullName) => {
   return user;
 }
 
+var moreAdd = (a, b, callback) => {
+  setTimeout(() => {
+    callback(add(a, b))}, 100
+  )
+}
+
+var moreSquare = (a, callback) => {
+  setTimeout(() => {
+    callback(square(a))}, 50
+  )
+}
+
 module.exports = {
   add,
   square,
-  setName
+  setName,
+  moreAdd,
+  moreSquare
 }
