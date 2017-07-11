@@ -20,6 +20,7 @@ var asyncAdd = (a, b) => {
   })
 }
 
+//then clause always does success first, then fail
 asyncAdd(4, '5').then((success) => {
   console.log("Success: "+success)
 }, (fail) => {
