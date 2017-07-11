@@ -20,10 +20,12 @@ var argv = yargs
 
 
 if (argv.address) {
+	//changes it from regular text to web-link text (ie. replace ' ' with '%20')
 	var encoded = encodeURIComponent(argv.address)
 	var codedURL = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encoded
 	fs.writeFileSync('location.json', JSON.stringify(argv.address));
 }else{
+	//if user didnt enter an input see if there are saved locations to use instead
 	try {
 		var noteString = fs.readFileSync('location.json');
 		var encoded = encodeURIComponent(noteString)
@@ -44,6 +46,7 @@ axios.get(codedURL).then((response) => {
 
 	var weatherURL = 'https://api.darksky.net/forecast/dc0f66d65ed468a6581dcfd18379fdb0/' + lat + ',' + long
 	console.log(response.data.results[0].formatted_address)
+	//if location was successfully fetched, perfomrs the same operation on weather
 	return axios.get(weatherURL)
 }).then((response) => {
 	var temp = response.data.currently.temperature;

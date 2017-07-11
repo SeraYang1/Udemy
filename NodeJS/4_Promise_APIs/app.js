@@ -30,5 +30,3 @@ geocode.geocodeAddress(argv.address, (error, results) => {
 		})
 	}
 });
-
-// //dc0f66d65ed468a6581dcfd18379fdb0

@@ -1,5 +1,8 @@
 console.log("HI");
 
+
+//async sets a delay, all other functions get executed first
+//async functions are saved while other functions are executing, then performed in order of when they finished
 setTimeout(() => {
   console.log("Loaded")
 }, 2)

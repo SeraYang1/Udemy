@@ -8,6 +8,8 @@
 //   console.log("Failed: "+message);
 // })
 
+//promise has resolve (success) and reject (failure) that executes later
+//need to call then for each case
 var asyncAdd = (a, b) => {
   return new Promise((resolve, reject) => {
     if(typeof a === 'number' && typeof b === 'number'){

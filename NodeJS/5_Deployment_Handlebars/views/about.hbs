@@ -1,12 +1,16 @@
+<!-- handlebars (hbs) is basically the website -->
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
+  <!-- {{something}} is a parameter that needs to be passed in -->
   <title>{{pageTitle}}</title>
 </head>
 <body>
+  <!-- {{> something}} calls the something partial so that that view appears -->
   {{> header}}
   <p>Some text<p>
+    <!-- {{function "params"}} calls another function with listed params -->
     {{screamIt "one"}}
     {{> footer}}
 </body>

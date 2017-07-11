@@ -1,3 +1,4 @@
+//callback - method gets executed later, basically passing in a funciton as a parameter
 var getUser = (id, callBack) => {
   var user = {
     id: id,
