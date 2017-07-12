@@ -24,10 +24,10 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {
   // })
 
   // findOneAndDelete - deletes and returns speficif one (first one)
- var id = new ObjectID("59653d5b7ec5e77340aa1cfc")
-  db.collection('Todos').findOneAndDelete({_id: id}).then((success) => {
-    console.log(JSON.stringify(success,undefined, 2))
-  })
+ // var id = new ObjectID("59653d5b7ec5e77340aa1cfc")
+ //  db.collection('Todos').findOneAndDelete({_id: id}).then((success) => {
+ //    console.log(JSON.stringify(success,undefined, 2))
+ //  })
 
   //close connection to databse
   //db.close();
