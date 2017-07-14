@@ -34,11 +34,11 @@ app.post('/todos', (req, res) => {
 });
 
 app.get('/todos', (req, res) => {
-	Todo.find().then((success) => {
+	Todo.find().then((todos) => {
 		res.send({
-			success
+			todos
 		})
-    //console.log(JSON.stringify(success, undefined, 2))
+    //console.log(JSON.stringify(todos, undefined, 2))
 	}, (fail) => res.status(400).send(fail))
 })
 
@@ -49,19 +49,32 @@ app.get('/todos/:id', (req, res) => {
 		return res.status(404).send("ID: "+id+ " is not valid")
 	}
 
-	Todo.findById(id).then((success) => {
-		if(!success){
+	Todo.findById(id).then((todos) => {
+		if(!todos){
 			return res.status(404).send("Could not find ID: "+id)
 		}
-		return res.status(200).send(success)
+		return res.status(200).send(todos)
 	}).catch((e) => res.status(400).send("Error fetching ID"))
 })
 
+app.delete('/todos/:id', (req, res) => {
+	var id = req.params.id;
+	if(!ObjectID.isValid(id)){
+		return res.status(404).send("ID: "+id+ " is not valid")
+	}
+
+	Todo.findByIdAndRemove(id).then((todos) => {
+		if(!todos){
+			return res.status(404).send("Could not find ID: "+id)
+		}
+		return res.status(200).send(todos)
+	}).catch((e) => res.status(400).send("Error fetching ID"))
+})
 
 app.listen(port, () => {
 	console.log(`Started on port ${port}`)
 })
-
+   
 module.exports = {
 	app
 }

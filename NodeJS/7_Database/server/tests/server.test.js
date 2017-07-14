@@ -79,8 +79,8 @@ describe('Get /Todos', () => {
 			.get('/todos')
 			.expect(200)
 			.expect((res) => {
-				expect(res.body.success.length).toBe(2)
-				expect(res.body.success[0]).toInclude({
+				expect(res.body.todo.length).toBe(2)
+				expect(res.body.todo[0]).toInclude({
 					text: 'first'
 				})
 			})
