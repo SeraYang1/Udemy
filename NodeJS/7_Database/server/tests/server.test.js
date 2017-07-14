@@ -16,7 +16,9 @@ const todos = [{
 	text: "first"
 }, {
 	_id: new ObjectID("59671a67bdfcd8a855fd8626"),
-	text: "second"
+	text: "second",
+	completed: "true",
+	completedAt: 333
 }]
 //run before each test case
 beforeEach((done) => {
@@ -149,6 +151,48 @@ describe('DELTE /todos/:id', () => {
 		request(app)
 			.delete(`/todos/123}`)
 			.expect(404)
+			.end(done);
+	})
+})
+
+describe('PATCH /todos/:id', () => {
+	it('Update todo', (done) => {
+		var hexID = todos[0]._id.toHexString()
+		//calls the app (server) to execute
+		request(app)
+			//patch is the method called with the link parameter
+			.patch(`/todos/${hexID}`)
+			//need to send something as parameters
+			.send({
+				text:"Changed it",
+				completed: true
+			})
+			.expect(200)
+			//check the results are what we want
+			.expect((res) => {
+				expect(res.body.todo._id).toBe(hexID);
+				expect(res.body.todo.text).toBe("Changed it");
+				expect(res.body.todo.completed).toBe(true);
+				expect(res.body.todo.completedAt).toBeA('number')
+			})
+			.end(done);
+	})
+
+	it('Clear completedAt when todo is not completed', (done) => {
+		var hexID = todos[0]._id.toHexString()
+		request(app)
+			.patch(`/todos/${hexID}`)
+			.send({
+				text:"#2",
+				completed: false
+			})
+			.expect(200)
+			.expect((res) => {
+				expect(res.body.todo._id).toBe(hexID);
+				expect(res.body.todo.text).toBe("#2");
+				expect(res.body.todo.completed).toBe(false);
+				expect(res.body.todo.completedAt).toBe(null)
+			})
 			.end(done);
 	})
 })
