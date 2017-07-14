@@ -1,6 +1,7 @@
-var express = require('express')
-var bodyParser = require('body-parser')
-var {ObjectID} = require('mongodb')
+const express = require('express')
+const bodyParser = require('body-parser')
+const {ObjectID} = require('mongodb')
+const _ = require('lodash')
 
 var {
 	mongoose
@@ -67,14 +68,43 @@ app.delete('/todos/:id', (req, res) => {
 		if(!todos){
 			return res.status(404).send("Could not find ID: "+id)
 		}
-		return res.status(200).send(todos)
-	}).catch((e) => res.status(400).send("Error fetching ID"))
+		return res.status(200).send({todos})
+	}).catch((e) => {
+		res.status(400).send("Error fetching ID")})
+})
+
+app.patch('/todos/:id', (req, res) => {
+	var id = req.params.id;
+	//only allows the user to edit some properties, like text and completed
+	var body = _.pick(req.body, ['text', 'completed'])
+
+	if(!ObjectID.isValid(id)){
+		return res.status(404).send("ID: "+id+ " is not valid")
+	}
+	
+	//if the user sends completed, automatically generated completedAt timestamp
+	if(_.isBoolean(body.completed) && body.completed){
+		body.completedAt = new Date().getTime();
+	} else {
+		body.completed = false;
+		body.completedAt = null;
+	}
+
+	//body is an object that is set, sets the rest of the parameteres (text and completed)
+	Todo.findByIdAndUpdate(id, {$set: body}, {new: true}).then((todo) => {
+		if (!todo) {
+			return res.status(404).send();
+		}
+		res.send({todo});
+	}).catch((e) => {
+		res.status(400).send();
+	})
 })
 
 app.listen(port, () => {
 	console.log(`Started on port ${port}`)
 })
-   
+
 module.exports = {
 	app
 }

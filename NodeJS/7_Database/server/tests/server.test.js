@@ -79,8 +79,8 @@ describe('Get /Todos', () => {
 			.get('/todos')
 			.expect(200)
 			.expect((res) => {
-				expect(res.body.todo.length).toBe(2)
-				expect(res.body.todo[0]).toInclude({
+				expect(res.body.todos.length).toBe(2)
+				expect(res.body.todos[0]).toInclude({
 					text: 'first'
 				})
 			})
@@ -110,6 +110,44 @@ describe('GET /todos/:id', () => {
 	it('Invalid ID', (done) => {
 		request(app)
 			.get(`/todos/123}`)
+			.expect(404)
+			.end(done);
+	})
+})
+
+describe('DELTE /todos/:id', () => {
+  it('should delete todo doc', (done) => {
+		var hexID = todos[0]._id.toHexString()
+    request(app)
+      .delete(`/todos/${hexID}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.todos._id).toBe(hexID);
+      })
+      .end((err, res) => {
+				//have to check what happens after the function to make sure it did something
+				//unlike other funcs bc the others returned something, this has to do something
+				if (err) {
+					return done(err);
+				}
+				Todo.findById(hexID).then((todos) => {
+					expect(todos).toNotExist();
+					done();
+				}).catch((e) => done(e));
+			});
+  });
+
+	it('Doesnt do anything', (done) => {
+		var hexId = new ObjectID().toHexString();
+		request(app)
+			.delete(`/todos/${hexId}`)
+			.expect(404)
+			.end(done);
+	})
+
+	it('Invalid ID', (done) => {
+		request(app)
+			.delete(`/todos/123}`)
 			.expect(404)
 			.end(done);
 	})
