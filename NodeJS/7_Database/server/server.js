@@ -102,6 +102,20 @@ app.patch('/todos/:id', (req, res) => {
 	})
 })
 
+app.post('/users', (req, res) => {
+	//takes what the user entered and creates a newUser
+	var newUser = new User(_.pick(req.body, ['email', 'password']));
+
+	//don't need the promise, only include it if you want to do something after saving it
+	newUser.save().then((user) => {
+		res.send(user)
+	}, (e) => {
+		res.status(400).send(e);
+	});
+});
+
+
+
 app.listen(port, () => {
 	console.log(`Started on port ${port}`)
 })
