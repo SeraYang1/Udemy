@@ -13,6 +13,7 @@ var {
 var {
 	User
 } = require('./models/users')
+var {authenticate} = require('./middleware/authenticate')
 
 var app = express();
 //HEROKU - make sure you change the port to be a global port
@@ -106,13 +107,27 @@ app.post('/users', (req, res) => {
 	//takes what the user entered and creates a newUser
 	var newUser = new User(_.pick(req.body, ['email', 'password']));
 
-	//don't need the promise, only include it if you want to do something after saving it
-	newUser.save().then((user) => {
-		res.send(user)
-	}, (e) => {
-		res.status(400).send(e);
-	});
+	// //don't need the promise, only include it if you want to do something after saving it
+	// newUser.save().then((user) => {
+	// 	res.send(user)
+	// }, (e) => {
+	// 	res.status(400).send(e);
+	// });
+	newUser.save().then(() => {
+		return newUser.generateAuthToken();
+	}).then((token) => {
+		//header creates a special key value pair
+		//x- tells html that it is a custom scheme
+		res.header('x-auth', token).send(newUser)
+	}).catch((e) => {
+		res.status(400).send(e)
+	})
 });
+
+
+app.get('/user/me', authenticate, (req, res) => {
+	res.send(req.user);
+})
 
 
 
