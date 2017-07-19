@@ -1,20 +1,27 @@
 const path = require('path');
+const http = require('http');
 const express = require('express');
 const publicPath = path.join(__dirname, "../public");
+const socketIO = require('socket.io');
+//first port is for heroku
 const port = process.env.PORT || 3000;
 var app = express();
+var server = http.createServer(app)
+var io = socketIO(server);
 
 //tells express which file to look at
 app.use(express.static(publicPath))
 
-// app.get('/', (req, res) => {
-// 	res.render('home.hbs', {
-// 		pageTitle: 'Home Page',
-// 		welcomeText: "Hello!"
-// 	})
-// });
+//listens for different calls
+io.on('connection', (socket) => {
+  console.log('New user connected');
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected from server')
+  })
+})
 
 //sets up server
-app.listen(port, () => {
+server.listen(port, () => {
 	console.log(`Server is up on port: ${port}`)
 });
