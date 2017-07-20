@@ -22,6 +22,15 @@ socket.on('newUser', function(user) {
   console.log(user)
 })
 
+socket.on('newLocationLink', function(msg) {
+	var li = jQuery('<li></li>')
+	var a = jQuery('<a target="_blank"> My current location </a>')
+  li.text(`${msg.from}: `);
+	a.attr('href', msg.url);
+	li.append(a);
+  jQuery('#msg-list').append(li);
+})
+
 jQuery('#message-form').on('submit', function(e){
   //e is default behavior, clears text field and adds json object to html
   e.preventDefault();
@@ -35,3 +44,21 @@ jQuery('#message-form').on('submit', function(e){
   })
   jQuery('#msg').val('')
 })
+
+var locationButton = jQuery('#send-location');
+//button, click event, does function
+locationButton.on('click', function () {
+	if(!navigator.geolocation){
+		return alert('Geolocation not supported by your browser.')
+	}
+
+	navigator.geolocation.getCurrentPosition(function (position){
+		socket.emit('newLocation', {
+			sender: 'Admin',
+			lat: position.coords.latitude,
+			long: position.coords.longitude
+		});
+	}, function() {
+		alert('Permission denied!');
+	});
+});

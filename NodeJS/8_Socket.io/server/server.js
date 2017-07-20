@@ -3,7 +3,7 @@ const http = require('http');
 const express = require('express');
 const publicPath = path.join(__dirname, "../public");
 const socketIO = require('socket.io');
-const {generateMessage} = require('./utils/message')
+const {generateMessage, generateLocationMessage} = require('./utils/message')
 var dateFormat = require('dateformat');
 //first port is for heroku
 const port = process.env.PORT || 3000;
@@ -40,6 +40,11 @@ io.on('connection', (socket) => {
     })
     callback('This is from the server');
 
+  })
+
+  socket.on('newLocation', (coords) => {
+    console.log(coords.lat)
+    io.emit('newLocationLink', generateLocationMessage(coords.sender, coords.lat, coords.long))
   })
 
   socket.on('disconnect', () => {
