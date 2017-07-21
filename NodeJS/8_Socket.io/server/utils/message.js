@@ -1,18 +1,18 @@
-var dateFormat = require('dateformat');
+const moment = require('moment');
 
 var generateMessage = (from, text) => {
 	return {
 		from,
 		text,
-		createdAt: dateFormat(new Date(), "dddd, mmmm dS, yyyy, h:MM:ss TT")
+		createdAt: moment().format('MMM Do, h:mmA')
 	}
 }
 
 var generateLocationMessage = (sender, lat, long) => {
 	return {
-    from: sender,
+		from: sender,
 		url: `http://www.google.com/maps?q=${lat},${long}`,
-		createdAt: dateFormat(new Date(), "dddd, mmmm dS, yyyy, h:MM:ss TT")
+		createdAt: moment().format('MMM Do, h:mmA')
 	}
 }
 

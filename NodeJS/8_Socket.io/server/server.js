@@ -19,31 +19,18 @@ io.on('connection', (socket) => {
   console.log('New user connected');
 
   //socket.emit only sends to one, io.emit sends it to everyone, socket.broadcast.emit sends it to everyone but socket (self)
-  socket.emit('newUser', {
-    from: 'Admin',
-    text: 'Welcome to chat!',
-    createdAt: dateFormat(new Date(), "dddd, mmmm dS, yyyy, h:MM:ss TT")
-  })
+  socket.emit('newUser', generateMessage('Admin', 'Welcome to the chat!'))
 
-  socket.broadcast.emit('newUser', {
-    from: 'Admin',
-    text: 'New user has joined',
-    createdAt: dateFormat(new Date(), "dddd, mmmm dS, yyyy, h:MM:ss TT")
-  })
+  socket.broadcast.emit('newUser', generateMessage('Admin', 'New user has joined'))
 
   socket.on('createMessage', (message, callback) => {
     //sends new connect with object
-    io.emit('newMessage', {
-      from: message.from,
-      text: message.text,
-      createdAt: dateFormat(new Date(), "dddd, mmmm dS, yyyy, h:MM:ss TT")
-    })
+    io.emit('newMessage', generateMessage(message.from, message.text))
     callback('This is from the server');
 
   })
 
   socket.on('newLocation', (coords) => {
-    console.log(coords.lat)
     io.emit('newLocationLink', generateLocationMessage(coords.sender, coords.lat, coords.long))
   })
 

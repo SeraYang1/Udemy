@@ -10,16 +10,20 @@ socket.on('disconnect', function() {
 })
 
 socket.on('newMessage', function(message) {
-	console.log('MESSAGE: ', message)
   //creates and modified an object
   var li = jQuery('<li></li>')
   li.text(`${message.from}: ${message.text}`)
-
+	var time = jQuery(`<p id="time"> ${message.createdAt} </p>`)
+	li.append(time)
   jQuery('#messages').append(li);
 })
 
 socket.on('newUser', function(user) {
-  console.log(user)
+	var li = jQuery('<li></li>')
+  li.text(`${user.from}: ${user.text}`)
+	var time = jQuery(`<p id="time"> ${user.createdAt} </p>`)
+	li.append(time)
+  jQuery('#messages').append(li);
 })
 
 socket.on('newLocationLink', function(msg) {
@@ -28,6 +32,8 @@ socket.on('newLocationLink', function(msg) {
   li.text(`${msg.from}: `);
 	a.attr('href', msg.url);
 	li.append(a);
+	var time = jQuery(`<p id="time"> ${msg.createdAt} </p>`)
+	li.append(time)
   jQuery('#messages').append(li);
 })
 

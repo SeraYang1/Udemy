@@ -197,3 +197,10 @@ button:disabled {
     margin-right: 0px;
   }
 }
+
+#time{
+  color: grey;
+  font-size: 10px;
+  display: inline-block;
+  padding-left: 10px;
+}
