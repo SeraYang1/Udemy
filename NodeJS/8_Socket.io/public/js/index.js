@@ -15,7 +15,7 @@ socket.on('newMessage', function(message) {
   var li = jQuery('<li></li>')
   li.text(`${message.from}: ${message.text}`)
 
-  jQuery('#msg-list').append(li);
+  jQuery('#messages').append(li);
 })
 
 socket.on('newUser', function(user) {
@@ -28,14 +28,14 @@ socket.on('newLocationLink', function(msg) {
   li.text(`${msg.from}: `);
 	a.attr('href', msg.url);
 	li.append(a);
-  jQuery('#msg-list').append(li);
+  jQuery('#messages').append(li);
 })
 
 jQuery('#message-form').on('submit', function(e){
   //e is default behavior, clears text field and adds json object to html
   e.preventDefault();
 
-	var msgBox = jQuery('#msg');
+	var msgBox = jQuery('#message');
 
   socket.emit('createMessage', {
     from: 'User',
