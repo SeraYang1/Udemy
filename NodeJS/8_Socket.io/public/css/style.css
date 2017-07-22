@@ -204,3 +204,8 @@ button:disabled {
   display: inline-block;
   padding-left: 10px;
 }
+
+h4{
+  display: inline-block;
+  font-weight: 700;
+}

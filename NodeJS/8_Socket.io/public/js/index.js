@@ -10,31 +10,47 @@ socket.on('disconnect', function() {
 })
 
 socket.on('newMessage', function(message) {
-  //creates and modified an object
-  var li = jQuery('<li></li>')
-  li.text(`${message.from}: ${message.text}`)
-	var time = jQuery(`<p id="time"> ${message.createdAt} </p>`)
-	li.append(time)
-  jQuery('#messages').append(li);
+	var template = jQuery('#msg-template').html();
+	var html = Mustache.render(template, {
+		text: message.text,
+		from: message.from,
+		createdAt: message.createdAt
+	});
+	jQuery('#messages').append(html);
+  // //creates and modified an object
+  // var li = jQuery('<li></li>')
+  // li.text(`${message.from}: ${message.text}`)
+	// var time = jQuery(`<p id="time"> ${message.createdAt} </p>`)
+	// li.append(time)
+  // jQuery('#messages').append(li);
 })
 
 socket.on('newUser', function(user) {
-	var li = jQuery('<li></li>')
-  li.text(`${user.from}: ${user.text}`)
-	var time = jQuery(`<p id="time"> ${user.createdAt} </p>`)
-	li.append(time)
-  jQuery('#messages').append(li);
+	var template = jQuery('#msg-template').html();
+	var html = Mustache.render(template, {
+		text: user.text,
+		from: user.from,
+		createdAt: user.createdAt
+	});
+	jQuery('#messages').append(html);
 })
 
 socket.on('newLocationLink', function(msg) {
-	var li = jQuery('<li></li>')
-	var a = jQuery('<a target="_blank"> My current location </a>')
-  li.text(`${msg.from}: `);
-	a.attr('href', msg.url);
-	li.append(a);
-	var time = jQuery(`<p id="time"> ${msg.createdAt} </p>`)
-	li.append(time)
-  jQuery('#messages').append(li);
+	var template = jQuery('#loc-template').html();
+	var html = Mustache.render(template, {
+		url: msg.url,
+		from: msg.from,
+		createdAt: msg.createdAt
+	});
+	jQuery('#messages').append(html);
+	// var li = jQuery('<li></li>')
+	// var a = jQuery('<a target="_blank"> My current location </a>')
+  // li.text(`${msg.from}: `);
+	// a.attr('href', msg.url);
+	// li.append(a);
+	// var time = jQuery(`<p id="time"> ${msg.createdAt} </p>`)
+	// li.append(time)
+  // jQuery('#messages').append(li);
 })
 
 jQuery('#message-form').on('submit', function(e){
