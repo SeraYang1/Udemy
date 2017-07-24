@@ -4,63 +4,30 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="/css/style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<title>Join | ChatApp</title>
 </head>
 
-<body class="chat">
-
-	<div class="chat__sidebar">
-		<h3>People</h3>
-		<div id="users">
-		</div>
+<body class="centered-form">
+	<div class="centered-form__form">
+    <!-- form with action - sends it to that page after user fills out form -->
+		<form action="/chat.html">
+			<div class="form-field">
+        <h3>Join a Chat</h3>
+      </div>
+			<div class="form-field">
+        <label>Display name</label>
+        <input type="text" name="name" autofocus>
+      </div>
+			<div class="form-field">
+        <label>Room name</label>
+        <input type="text" name="room">
+      </div>
+			<div class="form-field">
+        <button>Join</button>
+      </div>
+		</form>
 	</div>
-
-	<div class="chat__main">
-		<ol id="messages" class = "chat__messages">
-		</ol>
-
-		<div class="chat__footer">
-			<form id="message-form">
-				<input name="message" type="text" placeholder="Message" id="message" autofocus autocomplete="off" />
-				<button>Send</button>
-			</form>
-			<button id="send-location">Send Location</button>
-		</div>
-	</div>
-
-	<script id="msg-template" type="text/template">
-		<li class = "message">
-			<div class="message__tite">
-				<h4>{{from}}</h4>
-				<span id = "time">{{createdAt}}</span>
-			</div>
-			<div class = "message__body">
-				<p>{{text}}</p>
-			</div>
-		</li>
-	</script>
-
-	<script id="loc-template" type="text/template">
-		<li class = "message">
-			<div class="message__tite">
-				<h4>{{from}}</h4>
-				<span id = "time">{{createdAt}}</span>
-			</div>
-			<div class = "message__body">
-				<p>
-					<a href="{{url}}" target="_blank">
-						<img src="assets/loc.png" width=3% class=circle-img>
-						My Location </a>
-				</p>
-			</div>
-		</li>
-	</script>
-
-	<!-- loads in library that allows us to use socket -->
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="/js/libs/jquery-3.2.1.min.js"></script>
-	<script src="/js/libs/moment.js"></script>
-	<script src="/js/libs/mustache.js"></script>
-	<script src="/js/index.js"></script>
 
 </body>
 

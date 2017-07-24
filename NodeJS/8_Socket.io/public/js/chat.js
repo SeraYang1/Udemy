@@ -1,6 +1,30 @@
 //opens connection to socket that lets us listen
 var socket = io();
 
+//reformat the bottom messages sender
+var w = $('#messages').width();
+$('.chat__footer').width(w);
+var space = $('.chat__sidebar').width();
+$('.chat__footer').css('margin-left', space+'px')
+var footerHeight = $('.chat__footer').innerHeight();
+$('#messages').css('margin-bottom', footerHeight+'px')
+
+function scrollToBottom() {
+	//selectors
+	var messages = jQuery('#messages')
+	var newMessage = messages.children('li:last-child')
+	//heights
+	var clientHeight = messages.prop('clientHeight')
+	var scrollTop = messages.prop('scrollTop')
+	var scrollHeight = messages.prop('scrollHeight')
+	var newMessageHeight = newMessage.innerHeight()
+	var lastMessageHeight = newMessage.prev().innerHeight()
+
+	if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight){
+		messages.scrollTop(scrollHeight)
+	}
+}
+
 socket.on('connect', function() {
 	console.log('Connected to server')
 })
@@ -17,6 +41,7 @@ socket.on('newMessage', function(message) {
 		createdAt: message.createdAt
 	});
 	jQuery('#messages').append(html);
+	scrollToBottom()
   // //creates and modified an object
   // var li = jQuery('<li></li>')
   // li.text(`${message.from}: ${message.text}`)
@@ -33,6 +58,7 @@ socket.on('newUser', function(user) {
 		createdAt: user.createdAt
 	});
 	jQuery('#messages').append(html);
+	scrollToBottom()
 })
 
 socket.on('newLocationLink', function(msg) {
@@ -43,6 +69,7 @@ socket.on('newLocationLink', function(msg) {
 		createdAt: msg.createdAt
 	});
 	jQuery('#messages').append(html);
+	scrollToBottom()
 	// var li = jQuery('<li></li>')
 	// var a = jQuery('<a target="_blank"> My current location </a>')
   // li.text(`${msg.from}: `);
