@@ -4,6 +4,7 @@ const express = require('express');
 const publicPath = path.join(__dirname, "../public");
 const socketIO = require('socket.io');
 const {generateMessage, generateLocationMessage} = require('./utils/message')
+const {isRealString} = require('./utils/validation')
 var dateFormat = require('dateformat');
 //first port is for heroku
 const port = process.env.PORT || 3000;
@@ -17,6 +18,15 @@ app.use(express.static(publicPath))
 //listens for different calls
 io.on('connection', (socket) => {
   console.log('New user connected');
+
+  socket.on('join', (params, callback) => {
+    if(!isRealString(params.name)){
+      callback('Name is required')
+    }
+    if(!isRealString(params.room)){
+      callback('Room is required')
+    }
+  })
 
   //socket.emit only sends to one, io.emit sends it to everyone, socket.broadcast.emit sends it to everyone but socket (self)
   socket.emit('newUser', generateMessage('Admin', 'Welcome to the chat!'))
