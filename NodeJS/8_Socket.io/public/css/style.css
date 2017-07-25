@@ -211,12 +211,25 @@ h4{
 }
 
 #users{
-  padding: 5px;
-  padding-left: 10px;
-  padding-bottom: 15px;
-  margin: 5px;
   background-color: #6daddb;
+  margin: 8px;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
   color: white;
+}
+
+#users ol {
+  font-size: 16px;
+  border-style: none none solid none;
+  padding-bottom: 8px;
+  padding-top: 3px;
+  padding-left: 3px;
+  margin: 8px;
+  border-color: #265f82;
+  border-width: 1px;
+}
+
+#users ol:last-child{
+  border-style: none;
+  padding-bottom: 3px;
 }
