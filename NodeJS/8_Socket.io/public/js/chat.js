@@ -122,7 +122,6 @@ jQuery('#message-form').on('submit', function(e){
 	var msgBox = jQuery('#message');
 
   socket.emit('createMessage', {
-    from: 'User',
     text: msgBox.val()
     //callback that server can call to confirm recieving message
   }, (msg) => {
@@ -142,7 +141,6 @@ locationButton.on('click', function () {
 	navigator.geolocation.getCurrentPosition(function (position){
 		locationButton.removeAttr('disabled').text('Send Location')
 		socket.emit('newLocation', {
-			sender: 'Admin',
 			lat: position.coords.latitude,
 			long: position.coords.longitude
 		});
