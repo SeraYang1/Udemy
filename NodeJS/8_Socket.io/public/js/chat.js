@@ -9,6 +9,21 @@ $('.chat__footer').css('margin-left', space+'px')
 var footerHeight = $('.chat__footer').innerHeight();
 $('#messages').css('margin-bottom', footerHeight+'px')
 
+
+$( window ).resize(function() {
+	var w = $('#messages').width();
+	$('.chat__footer').width(w);
+	var space = $('.chat__sidebar').width();
+	$('.chat__footer').css('margin-left', space+'px')
+	if ($(".chat__sidebar").css('display') === 'none') {
+	   $('.chat__footer').css('margin-left', '0px')
+	}
+});
+
+if ($(".chat__sidebar").css('display') === 'none') {
+   $('.chat__footer').css('margin-left', '0px')
+}
+
 function scrollToBottom() {
 	//selectors
 	var messages = jQuery('#messages')
@@ -24,6 +39,16 @@ function scrollToBottom() {
 		messages.scrollTop(scrollHeight)
 	}
 }
+
+socket.on('updateUserList', function (users) {
+	var ol = jQuery('<ol></ol>');
+
+	users.forEach(function(user) {
+		ol.append(jQuery('<ol></ol>').text(user))
+	})
+
+	jQuery('#users').html(ol);
+})
 
 socket.on('connect', function() {
 	var params = jQuery.deparam(window.location.search);
